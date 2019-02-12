@@ -3,10 +3,10 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <math.h>
+#include <limits>
 
 using namespace std;
-
-#include <iostream>
 
 Mesh* ObjLoader::loadMesh(const char* file)
 {
@@ -30,6 +30,8 @@ Mesh* ObjLoader::loadMesh(const char* file)
   int faceStartIndex = -1;
   bool foundFaceStart = false;
   vector<string> lines;
+  mesh->lowVertex = glm::vec3(numeric_limits<float>::max());
+  mesh->highVertex = glm::vec3(std::numeric_limits<float>::min());
   while (getline(inStream, line))
   {
     if (line.rfind("v ", 0) == 0)
@@ -37,6 +39,12 @@ Mesh* ObjLoader::loadMesh(const char* file)
       vector<string> parts = splitString(line, ' ');
       glm::vec3 position = glm::vec3(stof(parts[1]), stof(parts[2]), stof(parts[3]));
       positions.push_back(position);
+      mesh->lowVertex.x = fmin(position.x, mesh->lowVertex.x);
+      mesh->lowVertex.y = fmin(position.y, mesh->lowVertex.y);
+      mesh->lowVertex.z = fmin(position.z, mesh->lowVertex.z);
+      mesh->highVertex.x = fmax(position.x, mesh->highVertex.x);
+      mesh->highVertex.y = fmax(position.y, mesh->highVertex.y);
+      mesh->highVertex.z = fmax(position.z, mesh->highVertex.z);
     }
     else if (line.rfind("vn ", 0) == 0)
     {

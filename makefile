@@ -4,10 +4,10 @@ BNAME=Program
 OBJDIR=obj
 BDIR=build
 
-$(BNAME): Main.o Window.o GlslProcessor.o Shutdown.o Batch.o Camera3D.o KeyProcessing.o ObjLoader.o
+$(BNAME): Main.o Window.o GlslProcessor.o Shutdown.o ModelBatch.o Camera3D.o KeyProcessing.o ObjLoader.o LightBatch.o BatchUtils.o
 	$(CC) $(OBJDIR)/*.o -o $(BDIR)/$(BNAME) $(LIBS)
 
-Main.o: Main.cpp Main.h Window.h GlslProcessor.h Camera3D.h KeyProcessing.h ObjLoader.h Geometry.h
+Main.o: Main.cpp Main.h Window.h GlslProcessor.h Camera3D.h KeyProcessing.h ObjLoader.h Geometry.h LightBatch.h
 	$(CC) -c $< -o $(OBJDIR)/$@
 
 Window.o: Window.cpp Window.h
@@ -19,7 +19,13 @@ GlslProcessor.o: GlslProcessor.cpp GlslProcessor.h Shutdown.h
 Shutdown.o: Shutdown.cpp Shutdown.h
 	$(CC) -c $< -o $(OBJDIR)/$@
 
-Batch.o: Batch.cpp Batch.h Camera3D.h Geometry.h
+BatchUtils.o: BatchUtils.cpp BatchUtils.h
+	$(CC) -c $< -o $(OBJDIR)/$@
+
+ModelBatch.o: ModelBatch.cpp ModelBatch.h Camera3D.h Geometry.h BatchUtils.h
+	$(CC) -c $< -o $(OBJDIR)/$@
+
+LightBatch.o: LightBatch.cpp LightBatch.h Geometry.h BatchUtils.h
 	$(CC) -c $< -o $(OBJDIR)/$@
 
 Camera3D.o: Camera3D.cpp Camera3D.h

@@ -25,6 +25,15 @@ struct Mesh
   std::vector<glm::vec3> vertexPositions;
   std::vector<glm::vec3> vertexNormals;
 
+  glm::vec3 highVertex;
+  glm::vec3 lowVertex;
+
+};
+
+struct Light
+{
+  glm::vec3 position;
+  glm::vec3 color;
 };
 
 #endif

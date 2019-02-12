@@ -19,15 +19,15 @@ struct UploadData
   std::vector<GLint> indicesData;
 };
 
-class Batch3D
+class ModelBatch
 {
 public:
 
-  ~Batch3D();
+  ~ModelBatch();
 
   /**
-   * Generates the vertex array, and vertex buffer
-   * objects for rendering.
+   * Generates the vertex array, elements buffer,
+   * and vertex buffers objects for rendering.
    */
   void generateBuffers();
 
@@ -38,9 +38,30 @@ public:
   void mapBuffersInformation();
 
   /**
+   * Binds the element array, and vertex array objects.
+   */
+  void bindBatch();
+
+  /**
+   * Unbinds the element array, and vertex array objects.
+   */
+  void unbindBatch();
+
+  /**
+   * Uploads the camera's view and project matrices.
+   */
+  void uploadCameraUniforms(GLuint programId, GlslProcessor* glslProcessor, Camera3D* camera3D);
+
+  /**
+   * Uploads the uniform light and positional values to apply
+   * lighting effects on the mesh.
+   */
+  void uploadLightUniforms(GLuint programId, GlslProcessor* glslProcessor, Light light);
+
+  /**
    * Renders the 3D image of the scene.
    */
-  void draw(GlslProcessor* glslProcessor, Camera3D* camera3D, GLuint programId, Mesh* mesh);
+  void draw(GLuint programId, GlslProcessor* glslProcessor, Mesh* mesh);
 
 private:
 
@@ -49,16 +70,6 @@ private:
   void uploadVertexBufferObjectData(int attributeIndex, std::vector<GLfloat> data);
 
   UploadData* decomposeMesh(Mesh* mesh);
-
-  /**
-   * Binds the vertex array, and vertex buffer objects.
-   */
-  void bindBuffer();
-
-  /**
-   * Unbinds the vertex array, and vertex buffer objects.
-   */
-  void unbindBuffer();
 
   GLuint  vao;
   GLuint* vbos;

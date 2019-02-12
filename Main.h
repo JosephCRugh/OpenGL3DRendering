@@ -3,7 +3,8 @@
 
 #include "Window.h"
 #include "GlslProcessor.h"
-#include "Batch.h"
+#include "ModelBatch.h"
+#include "LightBatch.h"
 #include "Camera3D.h"
 #include "KeyProcessing.h"
 
@@ -34,13 +35,17 @@ public:
 private:
   Window*        window;
   GlslProcessor* glslProcessor;
-  Batch3D*       batch3D;
+  ModelBatch*    modelBatch;
+  LightBatch*    lightBatch;
   Camera3D*      camera3D;
   KeyProcessing* keyProcessing;
 
+  Light light;
+
   Mesh* mesh;
 
-  GLuint glslProgramId;
+  GLuint modelProgramId;
+  GLuint lightProgramId;
 };
 
 #endif

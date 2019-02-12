@@ -2,57 +2,57 @@
 
 Window::~Window( )
 {
-  glfwDestroyWindow( this->glfwWindow );
-  glfwTerminate( );
+  glfwDestroyWindow(this->glfwWindow);
+  glfwTerminate();
 }
 
-void glfwErrorCallback( int error, const char* description )
+void glfwErrorCallback(int error, const char* description)
 {
   fprintf(stderr, "GLFW Error: %s\n", description);
 }
 
-void Window::create( int width, int height, const char* title )
+void Window::create(int width, int height, const char* title)
 {
-  glfwSetErrorCallback( glfwErrorCallback );
+  glfwSetErrorCallback(glfwErrorCallback);
 
-  if ( !glfwInit() ) exit( 1 );
+  if (!glfwInit()) exit(1);
 
-  glfwWindowHint( GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE );
+  glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
   glfwWindow = glfwCreateWindow(
-                              width  ,
-                              height ,
-                              title  ,
-                              NULL   ,
-                              NULL   );
-  if ( !glfwWindow )
+                              width,
+                              height,
+                              title,
+                              NULL,
+                              NULL);
+  if (!glfwWindow)
   {
-    fprintf( stderr, "Window was NULL.\n" );
-    glfwTerminate( );
-    exit( 1 );
+    fprintf(stderr, "Window was NULL.\n");
+    glfwTerminate();
+    exit(1);
   }
 
-  glfwMakeContextCurrent( glfwWindow );
-  glfwSwapInterval( 1 );
+  glfwMakeContextCurrent(glfwWindow);
+  glfwSwapInterval(1);
 
-  if ( glewInit() != GLEW_OK )
+  if (glewInit() != GLEW_OK)
   {
-    fprintf( stderr, "Failed To Initialize GLEW\n" );
-    glfwTerminate( );
-    exit( 1 );
+    fprintf(stderr, "Failed To Initialize GLEW\n");
+    glfwTerminate();
+    exit(1);
   }
 }
 
-void Window::setWindowIcon( const char* iconPath )
+void Window::setWindowIcon(const char* iconPath)
 {
 
 }
 
-void Window::swapBuffers( )
+void Window::swapBuffers()
 {
-  glfwSwapBuffers( this->glfwWindow );
+  glfwSwapBuffers(this->glfwWindow);
 }
 
-GLFWwindow* Window::getGlfwWindow( )
+GLFWwindow* Window::getGlfwWindow()
 {
   return glfwWindow;
 }
