@@ -49,12 +49,18 @@ void ModelBatch::uploadCameraUniforms(GLuint programId, GlslProcessor* glslProce
   BatchUtils::uploadCameraUniforms(programId, glslProcessor, camera3D);
 }
 
-void ModelBatch::uploadLightUniforms(GLuint programId, GlslProcessor* glslProcessor, Light light)
+void ModelBatch::uploadLightUniforms(GLuint programId, GlslProcessor* glslProcessor, std::vector<Light> lights)
 {
   glUniform1f(glslProcessor->getUniform(programId, "ambient"), 0.5f);
 
-  glUniform3fv(glslProcessor->getUniform(programId, "lightPosition"), 1, glm::value_ptr(light.position));
-  glUniform3fv(glslProcessor->getUniform(programId, "lightColor"), 1, glm::value_ptr(light.color));
+  for (int i = 0; i < lights.size(); i++)
+  {
+    std::string uniformLight = "lights[" + std::to_string(i) + "].";
+    std::string uniformPosition = uniformLight + "position";
+    std::string uniformColor = uniformLight + "color";
+    glUniform3fv(glslProcessor->getUniform(programId, uniformPosition.c_str()), 1, glm::value_ptr(lights[i].position));
+    glUniform3fv(glslProcessor->getUniform(programId, uniformColor.c_str()), 1, glm::value_ptr(lights[i].color));
+  }
 }
 
 void ModelBatch::draw(GLuint programId, GlslProcessor* glslProcessor, Mesh* mesh)
@@ -100,16 +106,16 @@ UploadData* ModelBatch::decomposeMesh(Mesh* mesh)
   {
     size_t os = i * 3;
     uploadData->positionData[os] = mesh->vertexPositions[i].x;
-    uploadData->positionData[os+1] = mesh->vertexPositions[i].y;
-    uploadData->positionData[os+2] = mesh->vertexPositions[i].z;
+    uploadData->positionData[os + 1] = mesh->vertexPositions[i].y;
+    uploadData->positionData[os + 2] = mesh->vertexPositions[i].z;
   }
 
   for (size_t i = 0; i < mesh->vertexNormals.size(); i++)
   {
     size_t os = i * 3;
     uploadData->normalData[os] = mesh->vertexNormals[i].x;
-    uploadData->normalData[os+1] = mesh->vertexNormals[i].y;
-    uploadData->normalData[os+2] = mesh->vertexNormals[i].z;
+    uploadData->normalData[os + 1] = mesh->vertexNormals[i].y;
+    uploadData->normalData[os + 2] = mesh->vertexNormals[i].z;
   }
 
   for (size_t i = 0; i < mesh->triangles.size(); i++)

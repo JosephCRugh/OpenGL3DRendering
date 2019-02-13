@@ -20,7 +20,13 @@ public:
    * Initializes all the components for rendering.
    * e.g. The batch, Camera, GlslProcessor ...
    */
-  void initialize();
+  void initialize(const char* meshPath, const char* jsonFile);
+
+  /**
+   * Loads in the camera location/rotation and the
+   * lighs' locations and colors.
+   */
+  void loadJsonFile(const char* jsonFile);
 
   /**
    * Called once a frame to perform input.
@@ -40,8 +46,7 @@ private:
   Camera3D*      camera3D;
   KeyProcessing* keyProcessing;
 
-  Light light;
-
+  std::vector<Light> lights;
   Mesh* mesh;
 
   GLuint modelProgramId;

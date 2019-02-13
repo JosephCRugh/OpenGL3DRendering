@@ -56,7 +56,7 @@ public:
    * Uploads the uniform light and positional values to apply
    * lighting effects on the mesh.
    */
-  void uploadLightUniforms(GLuint programId, GlslProcessor* glslProcessor, Light light);
+  void uploadLightUniforms(GLuint programId, GlslProcessor* glslProcessor, std::vector<Light> lights);
 
   /**
    * Renders the 3D image of the scene.

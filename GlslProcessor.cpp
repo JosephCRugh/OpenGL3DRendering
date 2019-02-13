@@ -73,6 +73,16 @@ GLuint GlslProcessor::loadShaderFile(
                       const char* filePath,
                       GLenum      shaderType)
 {
+  return loadShaderFile(filePath, shaderType, [](std::string line){
+    return line + "\n";
+  });
+}
+
+GLuint GlslProcessor::loadShaderFile(
+    const char*                             filePath,
+    GLenum                                  shaderType,
+    std::function<std::string(std::string)> lineProcess)
+{
   using namespace std;
 
   ifstream shaderStream(filePath);
@@ -84,7 +94,7 @@ GLuint GlslProcessor::loadShaderFile(
   string line = "", content;
   while(getline(shaderStream, line))
   {
-    content.append(line + "\n");
+    content.append(lineProcess(line));
   }
 
   shaderStream.close();

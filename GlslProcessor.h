@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 #include <vector>
+#include <functional>
 
 class GlslProcessor
 {
@@ -22,6 +23,11 @@ public:
   GLuint loadShaderFile(
       const char* filePath,
       GLenum      shaderType);
+
+  GLuint loadShaderFile(
+      const char*                             filePath,
+      GLenum                                  shaderType,
+      std::function<std::string(std::string)> lineProcess);
 
   /**
    * Gets the uniform location in the GLSL program

@@ -43,7 +43,7 @@ public:
    * Draws the light as a cube at the location specified
    * in the light with the color specified.
    */
-  void draw(GLuint programId, GlslProcessor* glslProcessor, Light light);
+  void draw(GLuint programId, GlslProcessor* glslProcessor, std::vector<Light> lights);
 
 private:
   GLuint vao;
