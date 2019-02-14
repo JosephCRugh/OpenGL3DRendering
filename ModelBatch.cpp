@@ -68,15 +68,20 @@ void ModelBatch::draw(GLuint programId, GlslProcessor* glslProcessor, Mesh* mesh
 
   UploadData* uploadData = decomposeMesh(mesh);
 
-  // Limiting the models to be 2x2x2
-  glm::mat4 scaledModel = glm::scale(glm::mat4(1),
+  // Limiting the models to be 2x2x2.
+  glm::mat4 shinkScaling = glm::scale(glm::mat4(1),
       glm::vec3(2.0f) / (mesh->highVertex - mesh->lowVertex));
+
+  glm::mat4 meshScale = glm::scale(glm::mat4(1), mesh->scale);
+  glm::mat4 meshTranslation = glm::translate(glm::mat4(1), mesh->position);
+
+  glm::mat4 modelMatrix = shinkScaling * meshScale * meshTranslation;
 
   glUniformMatrix4fv(
     glslProcessor->getUniform(programId, "modelMatrix"),
     1,
     GL_FALSE,
-    glm::value_ptr(scaledModel));
+    glm::value_ptr(modelMatrix));
 
   uploadVertexBufferObjectData(POSITION_ATTRIBUTE, uploadData->positionData);
   uploadVertexBufferObjectData(NORMAL_ATTRIBUTE, uploadData->normalData);

@@ -24,6 +24,10 @@ public:
       const char* filePath,
       GLenum      shaderType);
 
+  /**
+   * Compiles the GLSL shader file. The lines of the file are processed
+   * by lineProcess callback. The shaders Id is returned.
+   */
   GLuint loadShaderFile(
       const char*                             filePath,
       GLenum                                  shaderType,

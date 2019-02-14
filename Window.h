@@ -16,8 +16,6 @@ public:
    */
   void create(int width, int height, const char* title);
 
-  void setWindowIcon(const char* iconPath);
-
   /**
    * Swaps the frame buffer of the GLFW window.
    */

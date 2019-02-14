@@ -27,6 +27,9 @@ void Renderer3D::initialize(const char* meshPath, const char* jsonFile)
   lightBatch = new LightBatch;
   camera3D = new Camera3D;
 
+  ObjLoader objLoader;
+  mesh = objLoader.loadMesh(meshPath);
+
   loadJsonFile(jsonFile == NULL ? "Default.json" : jsonFile);
 
   modelProgramId = glslProcessor->makeNewGlslProgram({
@@ -43,9 +46,6 @@ void Renderer3D::initialize(const char* meshPath, const char* jsonFile)
     glslProcessor->loadShaderFile( "shaders/LightVertex.glsl"   , GL_VERTEX_SHADER  ),
     glslProcessor->loadShaderFile( "shaders/LightFragment.glsl" , GL_FRAGMENT_SHADER)
   });
-
-  ObjLoader objLoader;
-  mesh = objLoader.loadMesh(meshPath);
 
   glUseProgram(modelProgramId);
   {
@@ -101,6 +101,16 @@ void Renderer3D::loadJsonFile(const char* jsonFile)
     glm::vec3 nonNormalizedColor = glm::vec3(jlightColor[0], jlightColor[1], jlightColor[2]);
     light.color = nonNormalizedColor / glm::vec3(255.0f);
     lights.push_back(light);
+  }
+
+  // Loading the mesh's transforms.
+  auto jmodel = root["model"];
+  if (jmodel != nullptr)
+  {
+    auto jmodelPos = jmodel["position"];
+    auto jmodelScale = jmodel["scale"];
+    mesh->position = glm::vec3(jmodelPos[0], jmodelPos[1], jmodelPos[2]);
+    mesh->scale = glm::vec3(jmodelScale[0], jmodelScale[1], jmodelScale[2]);
   }
 }
 

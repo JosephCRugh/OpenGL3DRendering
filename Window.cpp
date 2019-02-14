@@ -42,11 +42,6 @@ void Window::create(int width, int height, const char* title)
   }
 }
 
-void Window::setWindowIcon(const char* iconPath)
-{
-
-}
-
 void Window::swapBuffers()
 {
   glfwSwapBuffers(this->glfwWindow);
